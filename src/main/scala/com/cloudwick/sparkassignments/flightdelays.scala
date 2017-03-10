@@ -6,6 +6,6 @@ package com.cloudwick.sparkassignments
  */
 object flightdelays {
   def main(args: Array[String]): Unit = {
-    println("Hello World")
+    println("Project to calculate flight delays")
   }
 }

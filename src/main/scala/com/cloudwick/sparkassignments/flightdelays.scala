@@ -22,6 +22,7 @@ object flightdelays {
     val maindf = df.unionAll(df1).unionAll(df2).unionAll(df3)
 
     val weekofYearDf = maindf.withColumn("weekofYear", weekofyear(concat($"Year", lit("-"), $"Month", lit("-"), $"DayofMonth")))
+    val totalDelayDf = maindf.withColumn("totalDelay", $"ArrDelay" + $"DepDelay")
     val weeklyReports = weekofYearDf.select("Year", "Month", "DayofMonth", "DayofWeek", "UniqueCarrier", "ArrDelay", "DepDelay", "weekofYear").groupBy("Year", "weekofYear", "UniqueCarrier").agg(sum("ArrDelay")).orderBy("Year", "weekofYear", "UniqueCarrier")
 
   }

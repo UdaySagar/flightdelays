@@ -23,7 +23,8 @@ object flightdelays {
 
     val weekofYearDf = maindf.withColumn("weekofYear", weekofyear(concat($"Year", lit("-"), $"Month", lit("-"), $"DayofMonth")))
     val totalDelayDf = maindf.withColumn("totalDelay", $"ArrDelay" + $"DepDelay")
-    val weeklyReports = weekofYearDf.select("Year", "Month", "DayofMonth", "DayofWeek", "UniqueCarrier", "ArrDelay", "DepDelay", "weekofYear").groupBy("Year", "weekofYear", "UniqueCarrier").agg(sum("ArrDelay")).orderBy("Year", "weekofYear", "UniqueCarrier")
+    val totalDelayDf1 = totalDelayDf.filter("Origin = 'SFO' or Dest ='")
+    val weeklyReports = weekofYearDf.select("Year", "Month", "DayofMonth", "DayofWeek", "UniqueCarrier", "ArrDelay", "DepDelay", "weekofYear", "Origin", "Dest").groupBy("Year", "weekofYear", "Origin").agg(sum("DepDelay")).orderBy("Year", "weekofYear", "Origin")
 
   }
 }

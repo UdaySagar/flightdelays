@@ -31,7 +31,8 @@ object flightdelays {
     val sfoDestDelayDf = sfoDestDf.withColumn("apDelay", $"ArrDelay")
 
     val delayDf = sfoOriginDelayDf.unionAll(sfoDestDelayDf)
-    val sfoDelayDf = delayDf.groupBy("Year", "weekofYear", "UniqueCarrier").agg(sum("apDelay")).orderBy("Year", "weekofYear", "UniqueCarrier")
+
+    val sfoDelayDf = delayDf.where("apDelay > 0").groupBy("Year", "weekofYear", "UniqueCarrier").agg(sum("apDelay")).orderBy("Year", "weekofYear", "UniqueCarrier")
 
 
     val weeklyReports = weekofYearDf.select("Year", "Month", "DayofMonth", "DayofWeek", "UniqueCarrier", "ArrDelay", "DepDelay", "weekofYear", "Origin", "Dest").groupBy("Year", "weekofYear", "Origin").agg(sum("DepDelay")).orderBy("Year", "weekofYear", "Origin")

@@ -12,6 +12,8 @@ import org.apache.spark.{SparkConf, SparkContext}
 object flightdelays {
   def main(args: Array[String]): Unit = {
     val conf = new SparkConf().setAppName("flightdelays")
+    // For local uncomment the following line and comment the above line
+    // val conf = new SparkConf().setAppName("flightdelays").setMaster("local")
     val sc = new SparkContext(conf)
     val sqlContext = new SQLContext(sc)
 
